@@ -54,7 +54,7 @@ export class CreateProductsComponent implements OnInit {
   onEdit(){
     console.log('id:' + this.id)
     if (this.id !== null ){
-      this.loading = true;
+      
       this.title = 'Edit a Product';
       
       this._productService.getProduct(this.id).subscribe(data =>{
@@ -75,7 +75,6 @@ export class CreateProductsComponent implements OnInit {
           description: data.payload.data()['description'] || '',
           imgUrl: data.payload.data()['imgUrl'] || '',
         })
-        this.loading = false;
       })
     }
   }
@@ -89,20 +88,17 @@ export class CreateProductsComponent implements OnInit {
   }
 
   onCreate(){
-    this.loading = true;
     this.title = 'Create a Product';
     const product = this.productForm.value;
     console.log(this.productForm);
  
      this._productService.createProduct(product).then(()=>{
       this._uploadService.uploadImg('fdvfs');
-       this.loading = false;
        this.toastr.success('Product successfully added to Firebase!', 'Product Created!',{
          positionClass: 'toast-bottom-right'
        });
        this.router.navigate(['/list-products']);
      }).catch(error =>{
-       this.loading = false;
        this.toastr.error('Product was not added from Firebase!', 'Error!', {
          positionClass: 'toast-bottom-right'
        });
