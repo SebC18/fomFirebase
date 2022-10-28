@@ -1,0 +1,29 @@
+body,
+html, footer {
+  font-family: 'Open Sans', sans-serif;
+}
+
+// Layout
+.container{
+  height: 120vh;
+  width: 100vw;
+}
+
+
+.nav{
+  height: 3rem;
+  background: rgb(13, 15, 15);
+  color: #E1E1E1;
+}
+
+a{
+display: inline-block;
+position: relative;
+padding: 1rem 0 0.5rem;
+margin: 0 1.5rem;
+font-family:'Montserrat', sans-serif;
+font-size: 18px;
+color: #dfd5d5;
+text-decoration: none;
+
+}

@@ -1,0 +1,133 @@
+<div class="container pt-4">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3">
+        <div class="card ">
+  
+          <div class="card-body">
+            <h3 class="text-center">{{title}}
+                <div *ngIf="loading" class="spinner-border float-end" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </h3>
+            <form class="mt-4" [formGroup]="productForm" (ngSubmit)="onCreateOrUpdate()">
+              <p class="mandatoryMsg text-danger" *ngIf="!productForm.valid">All fields marked with * are mandatory</p>
+              <label class="text-danger me-1 formTitle">* </label>
+              <label for="name" class="formTitle">Product Type</label>
+              <div class="row mt-1">
+                <div class="col ">
+                  
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" formControlName="type" type="radio" id="inlineRadio1" value="2">
+                    <label class="form-check-label" for="inlineRadio1">Rave Specs</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" formControlName="type" type="radio" id="inlineRadio2" value="1">
+                    <label class="form-check-label" for="inlineRadio2">Kaleido</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" formControlName="type" type="radio" id="inlineRadio3" value="3">
+                    <label class="form-check-label" for="inlineRadio3">Sunglasses</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" formControlName="type" type="radio" id="inlineRadio4" value="4">
+                    <label class="form-check-label" for="inlineRadio3">ReWave</label>
+                  </div>
+                </div>
+              </div>
+  
+              <div class=" row mt-3"> 
+                <div class="col ">
+                  <label class="text-danger me-1 formTitle">* </label>
+                  <label for="name" class="formTitle">Product Name</label>
+                  <input type="text" class="form-control " id="name" formControlName="name"  required>
+                  
+                </div>
+                <div class="col">
+                  <label class="text-danger me-1 formTitle">* </label>
+                  <label class="formTitle">Price (£)</label>
+                  <input type="number" class="form-control" formControlName="price" placeholder="£" required>
+                </div>
+              </div>
+  
+              <div class="row mt-3"> 
+                <div class="col">
+                  <label class="formTitle">Height (cm)</label>
+                  <input type="number" class="form-control" formControlName="height" placeholder="cm">
+                </div>
+                <div class="col">
+                  <label class="formTitle">Width (cm)</label>
+                  <input type="number" class="form-control" formControlName="width" placeholder="cm">
+                </div>
+              </div>
+  
+              <div class="row mt-3"> 
+                <div class="col">
+                  <label class="formTitle">Lens Colour</label>
+                  <input type="text" class="form-control" formControlName="lens_colour">
+                </div>
+                <div class="col">
+                  <label class="formTitle">Lens Type</label>
+                  <input type="text" class="form-control" formControlName="lens_type" placeholder="Acid, Immersion ..." >
+                  
+                </div>
+              </div>
+  
+              <div class="row mt-3"> 
+                <div class="col">
+                  <label class="formTitle">Frame Colour</label>
+                  <input type="text" class="form-control" formControlName="frame_colour" >
+                </div>
+                <div class="col">
+                  <label class="formTitle">Length of Temple (cm)</label>
+                  <input type="number" class="form-control" formControlName="length_of_temple" placeholder="cm">
+                </div>
+              </div>
+  
+              <div class="row mt-3"> 
+                <div class="col">
+                  <label class="formTitle">Intensity</label>
+                  <input type="text" class="form-control" formControlName="intensity" placeholder="Low, Medium, High...">
+                </div>
+                <div class="col">
+                  <label class="formTitle">UV Protection</label>
+                  <input type="text" class="form-control" formControlName="uv_protection" placeholder="UV400 Category 3...">
+                </div>
+              </div>
+  
+              <div class="row mt-3"> 
+                <div class="col">
+                  <label class="formTitle">Description</label>
+                  <textarea class="form-control"          formControlName="description" rows="4" placeholder="Product description"></textarea>
+                </div>
+              </div>
+              
+              <div class="row mt-3 ">
+                <label class="formTitle">Photos</label>
+                <img id="imgPreview"  [src]="imgSrc" (click)="fileUploader.click()">
+                <input id="choisirFichier" type="file" #fileUploader accept="image/*" (change)=showImgPreview($event) formControlName="imgUrl" name="image" autocomplete="off"/>
+              </div>
+
+              <div class="row mt-4">
+                <div class="col text-center">
+                  <button type="text" class="btn btn-dark btn-lg me-3" routerLink="/list-products">Products List</button>
+                  <button type="submit()" [disabled]="!productForm.valid" class="btn btn-success btn-lg">Submit</button>
+                </div>
+              </div>
+              
+  <!-- (change)="onFileSelected($event)" -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="width:600px">
+  
+    <div class="my-3">
+      <app-upload-form></app-upload-form>
+    </div>
+  
+    <div class="my-2">
+      <app-upload-list></app-upload-list>
+    </div>
+  </div>

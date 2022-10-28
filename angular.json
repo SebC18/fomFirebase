@@ -70,6 +70,10 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "option":{
+            "port": 4301,
+            "browserTarget": "fomFirebase:build"
+          },
           "configurations": {
             "production": {
               "browserTarget": "fomFirebase:build:production"
