@@ -93,7 +93,6 @@ export class CreateProductsComponent implements OnInit {
     console.log(this.productForm);
  
      this._productService.createProduct(product).then(()=>{
-      this._uploadService.uploadImg('fdvfs');
        this.toastr.success('Product successfully added to Firebase!', 'Product Created!',{
          positionClass: 'toast-bottom-right'
        });

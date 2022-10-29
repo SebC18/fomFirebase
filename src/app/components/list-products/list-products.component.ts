@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ListProductsComponent implements OnInit {
   products:  any[] = [];
+  kaleidos: any[] = [];
   
   constructor(private firestore : AngularFirestore, 
               private _productService : ProductService,
@@ -36,8 +37,23 @@ export class ListProductsComponent implements OnInit {
         })
       });
     });
+    
     this._fileService.initFiles();
   }
+
+  fetchKaleidos() {
+    this._productService.getProductsWithType(1).subscribe(data => {
+      data.forEach((element : any) => {
+        this.kaleidos.push({
+          id: element.payload.doc.id,
+          ...element.payload.doc.data(),
+        });
+      });
+    });
+    console.log(this.kaleidos);
+
+  }
+
 
   delete(id :string){
     this._productService.deleteProduct(id).then(()=>{

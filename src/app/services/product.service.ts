@@ -20,6 +20,8 @@ export class ProductService {
   }
 
   createProduct(newProduct : Partial<Product>): Promise<any>{
+    console.log('products/', newProduct.type, '/');
+    
     return this.firestore.collection('products').add(newProduct);
   }
 
@@ -29,5 +31,25 @@ export class ProductService {
 
   updateProduct(id: string, data: any): Promise<any>{
     return this.firestore.collection('products').doc(id).update(data);
+  }
+
+  getRaveSpecs():Observable<any>{
+    return this.firestore.collection('2').snapshotChanges();
+  }
+
+  getOneRaveSpec(id: string):Observable<any>{
+    return this.firestore.collection('2').doc(id).snapshotChanges();
+  }
+
+  getKaleidos():Observable<any>{
+    return this.firestore.collection('1').snapshotChanges();
+  }
+
+  getOneKaleido(id: string):Observable<any>{
+    return this.firestore.collection('1').doc(id).snapshotChanges();
+  }
+
+  getProductsWithType(type: number) {
+    return this.firestore.collection(type.toString()).snapshotChanges();
   }
 }
