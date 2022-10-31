@@ -49,7 +49,7 @@ export class CreateProductsComponent implements OnInit {
       width:[''],
       intensity:[''],
       imgUrl: [''],
-      date:[Date()]
+      date:[new Date()]
     })
     this.id = this.aRoute.snapshot.paramMap.get('id');
   }
@@ -81,6 +81,7 @@ export class CreateProductsComponent implements OnInit {
           uv_protection: data.payload.data()['uv_protection'] || '',
           description: data.payload.data()['description'] || '',
           imgUrl: data.payload.data()['imgUrl'] || '',
+          date: data.payload.data()['date'] || '',
         })
       })
     }
