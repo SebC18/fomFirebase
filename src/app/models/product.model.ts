@@ -12,5 +12,6 @@ export interface Product {
     uv_protection: string,
     description : string,
     cartAmount: number,
-    imgUrl: string
+    imgUrl: string,
+    date: Date
 }

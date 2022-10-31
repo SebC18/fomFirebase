@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductService {
+  docId = "";
 
   constructor(private firestore : AngularFirestore, private storage: AngularFireStorage) { }
 
@@ -19,10 +20,12 @@ export class ProductService {
     return this.firestore.collection('products').doc(id).snapshotChanges();
   }
 
-  createProduct(newProduct : Partial<Product>): Promise<any>{
+  createProduct(newProduct : Partial<Product>): Promise<string | void>{
     console.log('products/', newProduct.type, '/');
     
-    return this.firestore.collection('products').add(newProduct);
+   return this.firestore.collection('products').add(newProduct).then((docRef) => {
+     this.docId = docRef.id ;
+   });
   }
 
   deleteProduct(id: string): Promise<any>{

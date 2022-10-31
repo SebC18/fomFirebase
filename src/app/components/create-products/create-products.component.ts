@@ -1,10 +1,11 @@
 import { UploadFileService } from './../../services/upload-file.service';
 import { ProductService } from './../../services/product.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/models/product.model';
 import { ToastrService } from 'ngx-toastr';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -22,12 +23,17 @@ export class CreateProductsComponent implements OnInit {
   id: string | null;
   title: string = 'Create a Product';
 
+  creationId: any;
+  products: any;
+
   constructor(private fb : FormBuilder, 
               private _productService : ProductService, 
               private _uploadService: UploadFileService,
+              private _fileService : UploadFileService,
               private router : Router,
               private toastr : ToastrService,
-              private aRoute : ActivatedRoute) 
+              private aRoute : ActivatedRoute,
+              @Inject(LOCALE_ID) private locale: string) 
   {
     this.productForm = this.fb.group({
       type: ['', Validators.required],
@@ -43,6 +49,7 @@ export class CreateProductsComponent implements OnInit {
       width:[''],
       intensity:[''],
       imgUrl: [''],
+      date:[Date()]
     })
     this.id = this.aRoute.snapshot.paramMap.get('id');
   }
@@ -88,15 +95,24 @@ export class CreateProductsComponent implements OnInit {
   }
 
   onCreate(){
+     
     this.title = 'Create a Product';
     const product = this.productForm.value;
-    console.log(this.productForm);
- 
+    
+    this.productForm.patchValue({
+      date: formatDate(Date.now(), 'yyyy-MM-dd-H-mm-ss', this.locale)//"2022-10-29    14h-41m-29s"
+    });
+    console.log(this.productForm.value);
+     
      this._productService.createProduct(product).then(()=>{
+
        this.toastr.success('Product successfully added to Firebase!', 'Product Created!',{
          positionClass: 'toast-bottom-right'
        });
-       this.router.navigate(['/list-products']);
+       this.creationId = this._productService.docId;
+       console.log(this.creationId);
+       
+       //this.router.navigate(['/list-products']);
      }).catch(error =>{
        this.toastr.error('Product was not added from Firebase!', 'Error!', {
          positionClass: 'toast-bottom-right'
