@@ -1,6 +1,6 @@
 import { FileUploadService } from './../../services/file-upload.service';
 import { FileUpload } from './../../models/file-upload.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -8,7 +8,13 @@ import { ProductService } from 'src/app/services/product.service';
   templateUrl: './upload-form.component.html',
   styleUrls: ['./upload-form.component.scss']
 })
+
+
 export class UploadFormComponent implements OnInit {
+@Input('submited') submited: boolean | undefined; 
+imgSrc : string = '../../../assets/img/Placeholder.jpg';
+selectedImg : any = null;
+imgChoosen : boolean = true;
 
 selectedFiles?: FileList;
 currentFileUpload?: FileUpload;
@@ -22,25 +28,44 @@ percentage = 0;
   }
 
   selectFile(event : any):void{
-    this.selectedFiles = event.target.files;
+     this.selectedFiles = event.target.files;   
   }
 
-  upload():void{
+  uploadMultipleFiles():void{    
     
     if (this.selectedFiles){
-      const file: File | null = this.selectedFiles.item(0);
-      this.selectedFiles = undefined;
 
-      if (file){
-        this.currentFileUpload = new FileUpload(file);
-        this.uploadService.pushFiletoStorage(this.currentFileUpload, this._productService.docId ).subscribe(
-          percentage => {
-            this.percentage = Math.round(percentage ? percentage : 0);
-          },
-          error =>{
-            console.log(error);
-          }
-        )}
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+
+          const file = this.selectedFiles.item(i);
+
+          if (file) {
+            this.currentFileUpload = new FileUpload(file);
+
+            this.uploadService.pushFiletoStorage(this.currentFileUpload, this._productService.docId ).subscribe(
+              percentage => {
+                this.percentage = Math.round(percentage ? percentage : 0);
+              },
+              error =>{
+                console.log(error);
+              }
+            )}
+     
+        }
+
+      }
+  }
+
+  showImgPreview(event: any){
+    if (event.target.files && event.target.files[0]){
+      const reader = new FileReader();
+
+      reader.onload = (e:any) => this.imgSrc = e.target.result;
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImg = event.target.files[0];
+      this.imgChoosen = true;
+    }else{
+      return; 
     }
   }
 }

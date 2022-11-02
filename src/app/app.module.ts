@@ -9,6 +9,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { AppComponent } from './app.component';
 import { ListProductsComponent } from './components/list-products/list-products.component';
@@ -36,6 +38,8 @@ import { UploadDetailsComponent } from './components/upload-details/upload-detai
     AngularFirestoreModule,
     AngularFireStorageModule,
     ReactiveFormsModule,
+    MatGridListModule,
+    MatExpansionModule,
     ToastrModule.forRoot(),
   ],
   providers: [],

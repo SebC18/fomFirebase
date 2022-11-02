@@ -1,6 +1,6 @@
 import { UploadFileService } from './../../services/upload-file.service';
 import { ProductService } from './../../services/product.service';
-import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/models/product.model';
@@ -14,6 +14,7 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./create-products.component.scss']
 })
 export class CreateProductsComponent implements OnInit {
+
   imgSrc : string = '../../../assets/img/Placeholder.jpg';
   selectedImg : any = null;
   imgChoosen : boolean = true;
@@ -25,6 +26,8 @@ export class CreateProductsComponent implements OnInit {
 
   creationId: any;
   products: any;
+
+  submited = false;
 
   constructor(private fb : FormBuilder, 
               private _productService : ProductService, 
@@ -52,6 +55,8 @@ export class CreateProductsComponent implements OnInit {
       date:[new Date()]
     })
     this.id = this.aRoute.snapshot.paramMap.get('id');
+    this.submited = false;
+
   }
 
   ngOnInit(): void {
@@ -66,6 +71,7 @@ export class CreateProductsComponent implements OnInit {
       
       this._productService.getProduct(this.id).subscribe(data =>{
         const currentProduct = data.payload.data();
+
         console.log(data.payload.data());
         this.productForm.setValue({
           name : data.payload.data()['name'], 
@@ -96,7 +102,8 @@ export class CreateProductsComponent implements OnInit {
   }
 
   onCreate(){
-     
+    this.submited = false;
+
     this.title = 'Create a Product';
     const product = this.productForm.value;
     
@@ -111,8 +118,7 @@ export class CreateProductsComponent implements OnInit {
          positionClass: 'toast-bottom-right'
        });
        this.creationId = this._productService.docId;
-       console.log(this.creationId);
-       
+       this.submited = true;
        //this.router.navigate(['/list-products']);
      }).catch(error =>{
        this.toastr.error('Product was not added from Firebase!', 'Error!', {
@@ -123,6 +129,8 @@ export class CreateProductsComponent implements OnInit {
   }
 
   UpdateProduct(id: string){
+    this.submited = false;
+
     this.loading = true;
 
     const editedProduct = this.productForm.value;
@@ -134,10 +142,6 @@ export class CreateProductsComponent implements OnInit {
       });
       this.router.navigate(['/list-products']);
     });
-  }
-
-  uploadImgToFireStorage(path: string, imgName: string){
-    this
   }
 
   showImgPreview(event: any){

@@ -1,15 +1,29 @@
+<mat-grid-list cols="2" rowHeight="2:1" gutterSize="12px" >
+           <!--<span class="row mt-1 ">
+                  <h3 class="formTitle">Photos</h3>
+                  
+                  <input id="choisirFichier" type="file" #fileUploader accept="image/*" (change)=showImgPreview($event) formControlName="imgUrl" name="image" autocomplete="off"/>
+                </span>-->
+  <mat-grid-tile>1</mat-grid-tile>
+  <mat-grid-tile>2</mat-grid-tile>
+  <mat-grid-tile>3</mat-grid-tile>
+  <mat-grid-tile>4</mat-grid-tile>
+</mat-grid-list>
+
 <label>
     <input
+      multiple
       type="file"
       class="text-nowrap text-truncate"
       (change)="selectFile($event)"
+      access=".png,.jpg"
     />
-  </label>
+</label>
   
   <button
     class="btn btn-success btn-sm"
     [disabled]="!selectedFiles"
-    (click)="upload()"
+    (click)="uploadMultipleFiles()"
   >
     Upload
   </button>
@@ -26,3 +40,5 @@
       {{ percentage }}%
     </div>
   </div>
+
+ 
