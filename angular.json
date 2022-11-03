@@ -71,10 +71,6 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "option":{
-            "port": 4301,
-            "browserTarget": "fomFirebase:build"
-          },
           "configurations": {
             "production": {
               "browserTarget": "fomFirebase:build:production"
@@ -109,9 +105,21 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "fomFirebase"
+  "defaultProject": "fomFirebase",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
